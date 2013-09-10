@@ -1,11 +1,8 @@
-require 'rubygems'
-require 'bundler/setup'
-Bundler.require
-
 # load libraries
 require 'csv'
 
-# load schemas
+# load our app and schemas
+require_relative 'logflow'
 Dir[File.join(File.dirname(__FILE__), 'schema', '*.rb')].each {|file| require file }
 
 class LogbookParser
