@@ -1,22 +1,23 @@
+# load bundled gems and std lib stuff
 require 'rubygems'
+require 'csv'
 require 'bundler/setup'
 Bundler.require
 
-require_relative 'logbook_parser'
+# load our models and schemas
+require './logbook'
+Dir[File.join(File.dirname(__FILE__), 'schema', '*.rb')].each { |file| require file }
 
 get '/' do
   logbook_file = ENV['LOGBOOK_CSV'] || 'data/logbook.csv'
-  logbook = LogbookParser.new(logbook_file)
-
-  metadata = {
-    application: "logflow",
-    version: "0.1",
-    dateFormat: "dd-MMM-yyyy" # 2-Feb-2009
-  }
+  logbook = Logbook.new(logbook_file)
 
   data = {
-    metadata: metadata,
-    flights: logbook.flight_data.map(&:attributes)
+    flights: logbook.flight_data.map(&:attributes),
+    metadata: {
+      application: "logflow",
+      version: "0.1"
+    }.merge(logbook.metadata)
   }
 
   <<-HTML

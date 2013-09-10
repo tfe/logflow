@@ -1,4 +1,4 @@
-require_relative '../../schema/zululog'
+require './logflow'
 
 describe Schema::Zululog do
   let(:flight1) { [%Q{2-Feb-2009,430u,AGC,Four fundamentals,Chuck Testa,1,,,,1,,,,,,,,,,1.0,,1.0,TRUE,}.split(',')] }

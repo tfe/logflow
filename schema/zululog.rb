@@ -1,8 +1,17 @@
-require 'active_support/core_ext/object/blank'
+require './logflow'
+
 
 module Schema
   class Zululog
     extend Conformist
+
+    def self.options
+      { skip_first: true }
+    end
+
+    def self.metadata
+      { dateFormat: "dd-MMM-yyyy" } # 2-Feb-2009
+    end
 
     column :flight_from, 2 do |route|
       route.split.first

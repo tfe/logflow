@@ -1,7 +1,7 @@
-require_relative '../logbook_parser'
+require './logflow'
 
-describe LogbookParser do
-  let(:logbook) { LogbookParser.new('data/logbook.csv') }
+describe Logbook do
+  let(:logbook) { Logbook.new('data/logbook.csv') }
 
   describe "#flight_data" do
     subject(:flight_data) { logbook.flight_data }
