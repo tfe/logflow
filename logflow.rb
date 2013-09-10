@@ -13,7 +13,7 @@ get '/' do
   logbook = Logbook.new(logbook_file)
 
   data = {
-    flights: logbook.flight_data.map(&:attributes),
+    flights: logbook.flight_data,
     metadata: {
       application: "logflow",
       version: "0.1"

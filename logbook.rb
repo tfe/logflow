@@ -18,7 +18,10 @@ class Logbook
   end
 
   def flight_data
-    schema.conform(raw_data, schema.options)
+    schema.conform(raw_data, schema.options).map do |fd|
+      # logten seems to crash on null values in the JSON, so we strip them out here
+      fd.attributes.delete_if { |k, v| v.nil? }
+    end
   end
 
   def metadata
