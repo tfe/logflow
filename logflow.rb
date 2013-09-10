@@ -2,11 +2,11 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require
 
-require 'logbook_parser'
+require_relative 'logbook_parser'
 
 get '/' do
-
-  logbook = LogbookParser.new(ENV['LOGBOOK_CSV'] || 'data/logbook.csv')
+  logbook_file = ENV['LOGBOOK_CSV'] || 'data/logbook.csv'
+  logbook = LogbookParser.new(logbook_file)
 
   metadata = {
     application: "logflow",
@@ -16,8 +16,11 @@ get '/' do
 
   data = {
     metadata: metadata,
-    flights: logbook.flight_data
+    flights: logbook.flight_data.map(&:attributes)
   }
 
-  %Q{<a href="logten://addFlights/#{URI.escape(JSON.generate(data))}">Import sample flight</a>}
+  <<-HTML
+    <a href="logten://addFlights/#{URI.escape(JSON.generate(data))}">Import flight data:</a>
+    <pre>#{JSON.pretty_generate(data)}</pre>
+  HTML
 end

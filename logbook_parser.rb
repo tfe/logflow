@@ -2,6 +2,11 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require
 
+# load libraries
+require 'csv'
+
+# load schemas
+Dir[File.join(File.dirname(__FILE__), 'schema', '*.rb')].each {|file| require file }
 
 class LogbookParser
 
@@ -69,14 +74,28 @@ class LogbookParser
   # flight_to
   # flight_route
 
-  def flight_data
-    [].tap do |flight_data|
-      SmarterCSV.process(data_file, strings_as_keys: true, key_mapping: ZULULOG_LOGTEN_KEY_MAPPING) do |row|
-        flight_data << row
-        # debugger
-        # a=1
-      end
-    end
+  def schema
+    # could be other things in the future, or passed in, or auto-selected
+    Schema::Zululog
   end
 
+  def raw_data
+    CSV.open(data_file)
+  end
+
+  def flight_data
+    schema.conform(raw_data)
+  end
+
+  private
+
+  def computed_fields(flight)
+    {}.tap do |h|
+      route_parts = flight['route'].split
+      h[:flight_from]  = route_parts.first
+      h[:flight_to]    = route_parts.last
+      h[:flight_route] = nil
+      h[:flight_touchAndGoes]
+    end
+  end
 end
