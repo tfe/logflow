@@ -8,8 +8,8 @@ Bundler.require
 require './logbook'
 Dir[File.join(File.dirname(__FILE__), 'schema', '*.rb')].each { |file| require file }
 
-get '/?:logbook_file?' do |logbook_file|
-  logbook_file ||= 'data/logbook.csv'
+get '/' do
+  logbook_file = ENV['LOGBOOK_CSV'] || 'data/logbook.csv'
   logbook = Logbook.new(logbook_file)
 
   data = {
