@@ -1,5 +1,12 @@
 require './logflow'
 
+# Sample data for this schema:
+# Flight Date/Time,Aircraft ID,Route,Flight Remarks,Instructor Name,Day Takeoffs,Night Takeoffs,Day Touch/Go,Night Touch/Go,Day Full Stop,Night Full Stop,Instrument Approaches,Night Flight Time,Simulated Instrument,Flight Simulator,Helicopter,Tailwheel,X/Ctry,Solo,Dual Received,Total PIC Time,Total Flight Time,VFR,
+# 2-Feb-2009,430u,AGC,Four fundamentals,Orville Wright,1,,,,1,,,,,,,,,,1.0,,1.0,TRUE,
+# 5-Feb-2009,9417l,AGC,Four fundamentals and slow flight,Orville Wright,1,,,,1,,,,,,,,,,0.8,,0.8,TRUE,
+# 9-Feb-2009,4739j,AGC,"Intro power-off stalls, steeps, slow flight",Orville Wright,1,,,,1,,,,0.2,,,,,,1.1,,1.1,TRUE,
+# 13-Feb-2009,430u,AGC,"Slow flight, power-off stalls, power-on stalls",Orville Wright,1,,,,1,,,,,,,,,,0.9,,0.9,TRUE,
+
 module Schema
   class Zululog
     extend Conformist
